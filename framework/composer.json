@@ -1,0 +1,31 @@
+{
+    "name": "philsoft/framework",
+    "type": "library",
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "authors": [
+        {
+            "name": "Phillip Mwaniki Nzuli",
+            "email": "codezeroprivate@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "PhillipMwaniki\\Framework\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PhillipMwaniki\\Framework\\Tests\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "symfony/var-dumper": "7.2.x-dev",
+        "phpunit/phpunit": "^11.4@dev"
+    },
+    "require": {
+        "nikic/fast-route": "^2.0@dev",
+        "psr/container": "^2.0@dev",
+        "league/container": "5.x-dev"
+    }
+}
