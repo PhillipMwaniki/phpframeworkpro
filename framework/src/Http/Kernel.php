@@ -2,16 +2,21 @@
 
 namespace PhillipMwaniki\Framework\Http;
 
+use Exception;
 use PhillipMwaniki\Framework\Routing\Router;
 use PhillipMwaniki\Framework\Routing\RouterInterface;
 use Psr\Container\ContainerInterface;
 
 class Kernel
 {
+
+    private string $appEnv;
+
     public function __construct(
         private RouterInterface $router,
         private ContainerInterface $container
     ) {
+        $this->appEnv = $this->container->get("APP_ENV");
     }
     public function handle(Request $request): Response
     {
@@ -32,6 +37,10 @@ class Kernel
      */
     private function createExceptionResponse(\Exception $exception): Response
     {
+        if (in_array($this->appEnv, ['dev', 'test'])) {
+            throw $exception;
+        }
+
         if ($exception instanceof HttpException) {
             return new Response($exception->getMessage(), $exception->getStatusCode());
         }

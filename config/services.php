@@ -1,6 +1,7 @@
 <?php
 
 use League\Container\Argument\Literal\ArrayArgument;
+use League\Container\Argument\Literal\StringArgument;
 use League\Container\Container;
 use League\Container\ReflectionContainer;
 use PhillipMwaniki\Framework\Http\Kernel;
@@ -10,6 +11,11 @@ use PhillipMwaniki\Framework\Routing\RouterInterface;
 $container = new Container();
 
 $container->delegate(new ReflectionContainer(true));
+
+$appEnv = 'dev';
+
+$container->add('APP_ENV', new StringArgument($appEnv));
+
 
 // parameters for application config
 $routes = include BASE_PATH . '/routes/web.php';
