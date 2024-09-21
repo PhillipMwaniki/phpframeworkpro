@@ -4,6 +4,8 @@ namespace PhillipMwaniki\Framework\Http;
 
 class Response
 {
+    use HttpResponseTrait;
+
     public function __construct(
         private ?string $content = '',
         private int $status = 200,
