@@ -7,12 +7,16 @@ use League\Container\ReflectionContainer;
 use PhillipMwaniki\Framework\Http\Kernel;
 use PhillipMwaniki\Framework\Routing\Router;
 use PhillipMwaniki\Framework\Routing\RouterInterface;
+use Symfony\Component\Dotenv\Dotenv;
+
+$dotenv = new Dotenv();
+$dotenv->load(dirname(__DIR__).'/.env');
 
 $container = new Container();
 
 $container->delegate(new ReflectionContainer(true));
 
-$appEnv = 'dev';
+$appEnv = $_SERVER['APP_ENV'];
 
 $container->add('APP_ENV', new StringArgument($appEnv));
 

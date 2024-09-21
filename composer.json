@@ -17,6 +17,6 @@
         "symfony/var-dumper": "7.2.x-dev"
     },
     "require": {
-        "philsoft/framework": "dev-main"
+        "philsoft/framework": "dev-master"
     }
 }
