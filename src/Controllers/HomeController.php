@@ -13,7 +13,6 @@ class HomeController
 
     public function index()
     {
-
         $content = "<h1>Hello from the home, {$this->widget->name}</h1>";
 
         return new Response($content);

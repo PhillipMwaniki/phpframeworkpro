@@ -8,15 +8,18 @@ use PhillipMwaniki\Framework\Http\Kernel;
 use PhillipMwaniki\Framework\Routing\Router;
 use PhillipMwaniki\Framework\Routing\RouterInterface;
 use Symfony\Component\Dotenv\Dotenv;
+use Twig\Loader\FilesystemLoader;
 
 $dotenv = new Dotenv();
-$dotenv->load(dirname(__DIR__).'/.env');
+$dotenv->load(BASE_PATH .'/.env');
 
 $container = new Container();
 
 $container->delegate(new ReflectionContainer(true));
 
 $appEnv = $_SERVER['APP_ENV'];
+
+$templatePath = BASE_PATH . '/templates';
 
 $container->add('APP_ENV', new StringArgument($appEnv));
 
@@ -32,5 +35,11 @@ $container->extend(RouterInterface::class)
 $container->add(Kernel::class)
     ->addArgument(RouterInterface::class)
     ->addArgument($container);
+
+$container->addShared('filesystem-loader', FilesystemLoader::class)
+    ->addArgument(new StringArgument($templatePath));
+
+$container->addShared(\Twig\Environment::class)
+    ->addArgument('filesystem-loader');
 
 return $container;
