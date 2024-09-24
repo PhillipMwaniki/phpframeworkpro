@@ -4,6 +4,7 @@ use League\Container\Argument\Literal\ArrayArgument;
 use League\Container\Argument\Literal\StringArgument;
 use League\Container\Container;
 use League\Container\ReflectionContainer;
+use PhillipMwaniki\Framework\Controller\AbstractController;
 use PhillipMwaniki\Framework\Http\Kernel;
 use PhillipMwaniki\Framework\Routing\Router;
 use PhillipMwaniki\Framework\Routing\RouterInterface;
@@ -39,7 +40,12 @@ $container->add(Kernel::class)
 $container->addShared('filesystem-loader', FilesystemLoader::class)
     ->addArgument(new StringArgument($templatePath));
 
-$container->addShared(\Twig\Environment::class)
+$container->addShared('twig', \Twig\Environment::class)
     ->addArgument('filesystem-loader');
+
+$container->add(AbstractController::class);
+
+$container->inflector(AbstractController::class)
+    ->invokeMethod('setContainer', [$container]);
 
 return $container;
