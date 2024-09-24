@@ -2,6 +2,7 @@
 
 namespace PhillipMwaniki\Framework\Controller;
 
+use PhillipMwaniki\Framework\Http\Response;
 use Psr\Container\ContainerInterface;
 
 abstract class AbstractController
@@ -12,4 +13,16 @@ abstract class AbstractController
     {
         $this->container = $container;
     }
+
+    public function render(string $template, array $data = [], Response $response = null): Response
+    {
+        $content = $this->container->get('twig')->render($template, $data);
+
+        $response ??= new Response();
+
+        $response->setContent($content);
+
+        return $response;
+    }
+
 }

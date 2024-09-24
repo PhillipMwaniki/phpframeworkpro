@@ -2,14 +2,14 @@
 
 namespace App\Controllers;
 
+use PhillipMwaniki\Framework\Controller\AbstractController;
 use PhillipMwaniki\Framework\Http\Response;
 
-class PostController
+class PostController extends AbstractController
 {
-    public function show(int $id)
+    public function show(int $id): Response
     {
-        $content = "Post ID is $id";
 
-        return new Response($content);
+        return $this->render('post.twig', ['postId' => $id]);
     }
 }
