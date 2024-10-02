@@ -26,6 +26,16 @@ $templatePath = BASE_PATH . '/templates';
 
 $container->add('APP_ENV', new StringArgument($appEnv));
 
+
+// Console Kernel
+$container->add(
+    'base-commands-namespace',
+    new StringArgument('PhillipMwaniki\\Framework\\Console\\Command\\')
+);
+
+$container->add(\PhillipMwaniki\Framework\Console\Kernel::class)
+    ->addArgument($container);
+
 // Database Setup
 $databaseUrl = 'sqlite:///' . BASE_PATH . '/storage/db.sqlite';
 
