@@ -5,9 +5,11 @@ use League\Container\Argument\Literal\StringArgument;
 use League\Container\Container;
 use League\Container\ReflectionContainer;
 use PhillipMwaniki\Framework\Controller\AbstractController;
+use PhillipMwaniki\Framework\Dbal\ConnectionFactory;
 use PhillipMwaniki\Framework\Http\Kernel;
 use PhillipMwaniki\Framework\Routing\Router;
 use PhillipMwaniki\Framework\Routing\RouterInterface;
+use Psr\Container\ContainerInterface;
 use Symfony\Component\Dotenv\Dotenv;
 use Twig\Loader\FilesystemLoader;
 
@@ -24,8 +26,18 @@ $templatePath = BASE_PATH . '/templates';
 
 $container->add('APP_ENV', new StringArgument($appEnv));
 
+// Database Setup
+$databaseUrl = 'sqlite:///' . BASE_PATH . '/storage/db.sqlite';
 
-// parameters for application config
+$container->add(ConnectionFactory::class)
+    ->addArgument(new StringArgument($databaseUrl));
+
+$container->addShared(\Doctrine\DBAL\Connection::class, function () use ($container): \Doctrine\DBAL\Connection {
+    return $container->get(ConnectionFactory::class)->create();
+});
+
+
+// Routing
 $routes = include BASE_PATH . '/routes/web.php';
 
 $container->add(RouterInterface::class, Router::class);
@@ -37,6 +49,7 @@ $container->add(Kernel::class)
     ->addArgument(RouterInterface::class)
     ->addArgument($container);
 
+// Twig Template Registration
 $container->addShared('filesystem-loader', FilesystemLoader::class)
     ->addArgument(new StringArgument($templatePath));
 
